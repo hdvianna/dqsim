@@ -6,92 +6,153 @@ import java.util.*;
 
 
 /**
- * Class Simulation */
+* Class Simulation */
 public class Simulation {
 
-  private RandomNumberGenerator arrivalRandomNumberGenerator;
-  private RandomNumberGenerator departureRandomNumberGenerator;
-  private ArrayList<Server> servers;
-  private double clock;
-  private double timeOfNextArrival;
-  private double timeOfNextDeparture;
-  private ArrayList<Client> queue;
-  private double timeOfLastEvent;
-  private ArrayList<Client> servedClients;
-  private double endTime;
-  private boolean hasEnded=false;
-  
-  private void createServers(int _serversNumber) {
-      servers = new ArrayList<Server>();
-      for(int i=0;i < _serversNumber; i++) {
-          servers.add(new Server());
-      }
-  }
+    private RandomNumberGenerator arrivalRandomNumberGenerator;
+    private RandomNumberGenerator departureRandomNumberGenerator;
+    private ArrayList<Server> servers;
+    private double clock;
+    private double timeOfLastEvent;
+    private double timeOfNextArrival;
+    private double timeOfNextDeparture;
+    private ArrayList<Client> queue;    
+    private ArrayList<Client> servedClients;
+    private double endTime;
+    private boolean hasEnded=false;
+        
+    private void createServers(int _serversNumber) {
+        servers = new ArrayList<Server>();
+        for(int i=0;i < _serversNumber; i++) {
+            servers.add(new Server());
+        }
+    }
 
-  //
-  // Constructors
-  //
-  public Simulation (int _serversNumber, double _endTime) {
-      endTime = _endTime;
-      createServers(_serversNumber);
-      servedClients = new ArrayList<Client>();
-      queue = new ArrayList<Client>();
-  };
-  
-  /**
-   * @param        _arrivalRandomNumberGenerator
-   */
-  public void setArrivalRandomNumberGenerator( RandomNumberGenerator _arrivalRandomNumberGenerator )
-  {
-      arrivalRandomNumberGenerator = _arrivalRandomNumberGenerator;
-  }
+    //
+    // Constructors
+    //
+    public Simulation (int _serversNumber, double _endTime) {
+        clock = 0;
+        timeOfLastEvent = 0;
+        timeOfNextArrival = -1;
+        timeOfNextDeparture = -1;
+        endTime = _endTime;
+        createServers(_serversNumber);
+        servedClients = new ArrayList<Client>();
+        queue = new ArrayList<Client>();
+    };
 
-
-  /**
-   * @param        _departureRandomNumberGenerator
-   */
-  public void setDepartureRandomNumberGenerator( RandomNumberGenerator _departureRandomNumberGenerator )
-  {
-      departureRandomNumberGenerator = _departureRandomNumberGenerator;
-  }
+    /**
+    * @param        _arrivalRandomNumberGenerator
+    */
+    public void setArrivalRandomNumberGenerator( RandomNumberGenerator _arrivalRandomNumberGenerator )
+    {
+        arrivalRandomNumberGenerator = _arrivalRandomNumberGenerator;
+    }
 
 
-  /**
-   * @return       double
-   */
-  public double getClock(  )
-  {
-      return clock;
-  }
+    /**
+    * @param        _departureRandomNumberGenerator
+    */
+    public void setDepartureRandomNumberGenerator( RandomNumberGenerator _departureRandomNumberGenerator )
+    {
+        departureRandomNumberGenerator = _departureRandomNumberGenerator;
+    }
 
 
-  /**
-   * @return       double
-   */
-  public double getTimeOfNextArrival(  )
-  {
-      return timeOfNextArrival;
-  }
+    /**
+    * @return       double
+    */
+    public double getClock(  )
+    {
+        return clock;
+    }
 
 
-  /**
-   * @return       double
-   */
-  public double getTimeOfNextDeparture(  )
-  {
-      return timeOfNextDeparture;
-  }
+    /**
+    * @return       double
+    */
+    public double getTimeOfNextArrival(  )
+    {
+        return timeOfNextArrival;
+    }
 
 
-  /**
-   */
-  public void nextEvent(  )
-  {
-  }
+    /**
+    * @return       double
+    */
+    public double getTimeOfNextDeparture(  )
+    {
+        return timeOfNextDeparture;
+    }
+
+    private Server getFreeServer () {
+        for(Server server : servers) {
+            if (!server.isBusy()) {
+                return server;
+            }
+        }
+        return null;
+    }
+
+    private Server getServerWithOldestClient() {
+        Server retServer = null;
+        for(Server server : servers) {
+            if (server.isBusy() && 
+                (retServer == null ||
+                server.getClient().getServiceStartTime() < retServer.getClient().getServiceStartTime()))
+            {
+                retServer = server;
+                
+            }
+        }
+        return retServer;
+    }
+
+    private void departure() {
+        Server server = getServerWithOldestClient();
+        if (server != null) {
+            servedClients.add(server.endService(clock));
+            if (queue.size() > 0) {
+               Server freeServer =  getFreeServer();
+               freeServer.serveClient(queue.remove(0), clock);
+            }
+        }
+    }
+
+    private void arrival() {
+        Server server = getFreeServer();
+        Client client = new Client();
+        client.setTimeOfArrival(clock);
+        if (server != null) {
+            server.serveClient(client, clock);
+        } else {
+            queue.add(client);
+        }
+    }
+
+    public void nextEvent(  )
+    {
+        if (timeOfNextArrival <= clock) {
+            timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();
+        }
+
+        if (timeOfNextDeparture <= clock ) {
+            timeOfNextDeparture = timeOfNextArrival + departureRandomNumberGenerator.generate();
+        }
+
+        if (timeOfNextArrival > timeOfNextDeparture) {
+            clock = timeOfNextArrival;
+            arrival();
+        } else {
+            clock = timeOfNextDeparture;
+            departure();
+        }
+    }
 
 
-  public boolean hasEnded() {
-      return hasEnded;
-  }
+    public boolean hasEnded() {
+        return hasEnded;
+    }
 
 }
