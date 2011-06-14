@@ -27,6 +27,12 @@ public class Server {
         busyTime += serviceStartTime - _clock;
         busy = false;
         client.setTimeOfDeparture(_clock);
+        Client _ret = client;
+        client = null;
+        return _ret;
+    }
+
+    public Client getClient() {
         return client;
     }
 
