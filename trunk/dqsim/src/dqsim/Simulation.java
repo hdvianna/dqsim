@@ -141,7 +141,7 @@ public class Simulation {
             timeOfNextDeparture = timeOfNextArrival + departureRandomNumberGenerator.generate();
         }
 
-        if (timeOfNextArrival > timeOfNextDeparture) {
+        if (timeOfNextArrival < timeOfNextDeparture) {
             clock = timeOfNextArrival;
             arrival();
         } else {
