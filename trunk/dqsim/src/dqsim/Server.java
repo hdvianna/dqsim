@@ -22,7 +22,7 @@ public class Server {
     }
 
     public Client endService(double _clock) {
-        busyTime += (client.getServiceStartTime() - _clock);
+        busyTime += (_clock-client.getServiceStartTime());
         busy = false;
         client.setTimeOfDeparture(_clock);
         Client _ret = client;
@@ -44,7 +44,9 @@ public class Server {
 
     public double getBusyTime(double _clock) {
         if (busy) {
-            return busyTime + (client.getServiceStartTime() - _clock);
+            System.out.println("getBusyTime:_clock" + _clock);
+            System.out.println("getBusyTime:client.getServiceStartTime" + client.getServiceStartTime());
+            return busyTime + (_clock-client.getServiceStartTime());
         } else {
             return busyTime;
         }
