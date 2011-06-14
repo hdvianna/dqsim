@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package dqsim;
+package dqsim.exec;
 
+import dqsim.SimulationFactory;
 import dqsim.ui.SimConsole;
 
 /**
