@@ -1,5 +1,7 @@
 package dqsim;
 
+import dqsim.radom.UniformRandomNumberGenerator;
+
 
 
 /**

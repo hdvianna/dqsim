@@ -1,6 +1,7 @@
 package dqsim;
 
 
+import dqsim.radom.RandomNumberGenerator;
 import java.util.*;
 
 
