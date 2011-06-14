@@ -9,27 +9,34 @@ import java.util.*;
 public class Server {
 
 
-  private boolean busy;
-  
-  public Server () { };
-  
+    private boolean busy=false;
+    private double busyTime=0;
+    private Client client;
+    private double serviceStartTime;
 
-  /**
-   * @param        _busy
-   */
-  public void setBusy( boolean _busy )
-  {
-      busy = _busy;
-  }
+    public Server () { };
 
+    public void serveClient(Client _client, double _clock) {
+        serviceStartTime = _clock;
+        busy = true;
+        client = _client;
+        client.setServiceStartTime(_clock);
+    }
 
-  /**
-   * @return       boolean
-   */
-  public boolean isBusy(  )
-  {
-      return busy;
-  }
+    public Client endService(double _clock) {
+        busyTime += serviceStartTime - _clock;
+        busy = false;
+        client.setTimeOfDeparture(_clock);
+        return client;
+    }
+
+    /**
+    * @return       boolean
+    */
+    public boolean isBusy(  )
+    {
+        return busy;
+    }
 
 
 }
