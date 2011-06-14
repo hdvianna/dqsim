@@ -12,19 +12,17 @@ public class Server {
     private boolean busy=false;
     private double busyTime=0;
     private Client client;
-    private double serviceStartTime;
 
     public Server () { };
 
-    public void serveClient(Client _client, double _clock) {
-        serviceStartTime = _clock;
+    public void serveClient(Client _client, double _clock) {        
         busy = true;
         client = _client;
         client.setServiceStartTime(_clock);
     }
 
     public Client endService(double _clock) {
-        busyTime += serviceStartTime - _clock;
+        busyTime += (client.getServiceStartTime() - _clock);
         busy = false;
         client.setTimeOfDeparture(_clock);
         Client _ret = client;
@@ -42,6 +40,14 @@ public class Server {
     public boolean isBusy(  )
     {
         return busy;
+    }
+
+    public double getBusyTime(double _clock) {
+        if (busy) {
+            return busyTime + (client.getServiceStartTime() - _clock);
+        } else {
+            return busyTime;
+        }
     }
 
 

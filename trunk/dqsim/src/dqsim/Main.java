@@ -5,6 +5,8 @@
 
 package dqsim;
 
+import dqsim.ui.SimConsole;
+
 /**
  *
  * @author henrique
@@ -16,6 +18,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        SimConsole console = new SimConsole(SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM"));
+        console.start();
     }
 
 }
