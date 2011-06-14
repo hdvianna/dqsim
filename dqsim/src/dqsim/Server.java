@@ -44,8 +44,6 @@ public class Server {
 
     public double getBusyTime(double _clock) {
         if (busy) {
-            System.out.println("getBusyTime:_clock" + _clock);
-            System.out.println("getBusyTime:client.getServiceStartTime" + client.getServiceStartTime());
             return busyTime + (_clock-client.getServiceStartTime());
         } else {
             return busyTime;
