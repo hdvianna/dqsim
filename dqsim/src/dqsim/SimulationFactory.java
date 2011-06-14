@@ -16,7 +16,7 @@ public class SimulationFactory {
    */
   public static Simulation CreateSimulation(String _identification )
   {
-      Simulation sim = new Simulation();
+      Simulation sim = new Simulation(10, 43200);
       sim.setArrivalRandomNumberGenerator(new UniformRandomNumberGenerator());
       sim.setDepartureRandomNumberGenerator(new UniformRandomNumberGenerator());
       return sim;

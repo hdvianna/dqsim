@@ -10,18 +10,32 @@ public class Simulation {
 
   private RandomNumberGenerator arrivalRandomNumberGenerator;
   private RandomNumberGenerator departureRandomNumberGenerator;
-  private ArrayList<Server> _servers;
+  private ArrayList<Server> servers;
   private double clock;
   private double timeOfNextArrival;
   private double timeOfNextDeparture;
   private ArrayList<Client> queue;
   private double timeOfLastEvent;
   private ArrayList<Client> servedClients;
+  private double endTime;
+  private boolean hasEnded=false;
   
+  private void createServers(int _serversNumber) {
+      servers = new ArrayList<Server>();
+      for(int i=0;i < _serversNumber; i++) {
+          servers.add(new Server());
+      }
+  }
+
   //
   // Constructors
   //
-  public Simulation () { };
+  public Simulation (int _serversNumber, double _endTime) {
+      endTime = _endTime;
+      createServers(_serversNumber);
+      servedClients = new ArrayList<Client>();
+      queue = new ArrayList<Client>();
+  };
   
   /**
    * @param        _arrivalRandomNumberGenerator
@@ -74,5 +88,9 @@ public class Simulation {
   {
   }
 
+
+  public boolean hasEnded() {
+      return hasEnded;
+  }
 
 }
