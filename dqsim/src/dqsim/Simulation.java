@@ -150,9 +150,19 @@ public class Simulation {
         }
     }
 
-
     public boolean hasEnded() {
         return hasEnded;
     }
 
+    public ArrayList<Client> getQueue() {
+        return queue;
+    }
+
+    public ArrayList<Client> getServerdClients() {
+        return servedClients;
+    }
+
+    public ArrayList<Server> getServers() {
+        return servers;
+    }
 }
