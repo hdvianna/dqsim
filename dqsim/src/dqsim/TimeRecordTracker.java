@@ -40,4 +40,8 @@ public class TimeRecordTracker {
         timeRecordArray.add(timeRecord);        
     }
 
+    public ArrayList<ArrayList<TimeRecord>> getTimeTracker() {
+        return timeTracker;
+    }
+
 }
