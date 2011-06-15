@@ -7,9 +7,11 @@ package dqsim;
 public class Client {
 
 
-  private double timeOfArrival;
-  private double timeOfDeparture;
-  private double serviceStartTime;
+  private double timeOfArrival=-1;
+  private double timeOfDeparture=-1;
+  private double serviceStartTime=-1;
+  private double queueStartTime=-1;
+  private double queueEndTime=-1;
   
   public Client () { };
   
@@ -65,6 +67,37 @@ public class Client {
   public double getServiceStartTime(  )
   {
       return serviceStartTime;
+  }
+
+    /**
+   * @param        _serviceStartTime
+   */
+  public void setQueueStartTime( double _queueStartTime )
+  {
+      queueStartTime = _queueStartTime;
+  }
+
+
+  /**
+   * @return       double
+   */
+  public double getQueueStartTime(  )
+  {
+      return queueStartTime;
+  }
+
+    public void setQueueEndTime( double _queueEndTime )
+  {
+      queueEndTime = _queueEndTime;
+  }
+
+
+  /**
+   * @return       double
+   */
+  public double getQueueEndTime(  )
+  {
+      return queueEndTime;
   }
 
 

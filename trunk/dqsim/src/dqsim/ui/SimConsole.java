@@ -56,8 +56,28 @@ public class SimConsole extends Thread {
 
     }
 
+    private boolean _25perc = false;
+    private boolean _50perc = false;
+    private boolean _75perc = false;
+
+    private void writeCompleteness() {
+        if (sim.getClock()/sim.getEndTime() >= 0.25 && !_25perc){
+            _25perc = true;
+            System.out.println("25%");
+        }
+        if (sim.getClock()/sim.getEndTime() >= 0.5 && !_50perc){
+            _50perc = true;
+            System.out.println("50%");
+        }
+        if (sim.getClock()/sim.getEndTime() >= 0.75 && !_75perc){
+            _75perc = true;
+            System.out.println("75%");
+        }
+    }
+
     public void run() {
-        Console cons;        
+        Console cons;
+
         if ((cons = System.console()) != null ) {            
             while(!sim.hasEnded()) {
                 try {
@@ -75,7 +95,8 @@ public class SimConsole extends Thread {
                         } else if (command.toLowerCase().equals("fim")) {
                             gotoEnd = true;
                         }
-                    } else {                        
+                    } else {
+                        writeCompleteness();
                         sleep(1);
                     }
                 } catch (Exception ex) {
