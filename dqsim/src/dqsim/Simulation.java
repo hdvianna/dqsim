@@ -114,10 +114,10 @@ public class Simulation {
         if (server != null) {
             servedClients.add(server.endService(clock));
             if (queue.size() > 0) {
-               Server freeServer =  getFreeServer();
-               freeServer.serveClient(queue.remove(0), clock);
+                Server freeServer =  getFreeServer();
+                freeServer.serveClient(queue.remove(0), clock);
             }
-        }        
+        } 
     }
 
     private void arrival() {
@@ -134,18 +134,23 @@ public class Simulation {
     public void nextEvent(  )
     {
         if (timeOfNextArrival == -1) {
-            clock = timeOfNextArrival = arrivalRandomNumberGenerator.generate();
-            timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
-        } else {
-            if (timeOfNextArrival <= timeOfNextDeparture) {
+            timeOfNextArrival = arrivalRandomNumberGenerator.generate();
+        } else {            
+            if (timeOfNextArrival <= timeOfNextDeparture ||timeOfNextDeparture==-1) {
                 clock = timeOfNextArrival;
-                arrival();
                 timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();
+                if (timeOfNextDeparture==-1) {
+                    timeOfNextDeparture = timeOfNextArrival + departureRandomNumberGenerator.generate();
+                }
+                arrival();                
             } else {
                 clock = timeOfNextDeparture;
-                departure();
                 timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
-            }
+                departure();
+                if (getServerWithOldestClient()==null) {
+                    timeOfNextDeparture = -1;
+                }
+            }            
         }
 
     }

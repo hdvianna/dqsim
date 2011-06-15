@@ -58,14 +58,14 @@ public class SimConsole extends Thread {
         if ((cons = System.console()) != null ) {            
             while(!sim.hasEnded()) {
                 try {
+                    sim.nextEvent();
                     printSimData();
                     System.out.println("Digite fim para finalizar a simulacao, enter continua.");
                     String command;
                     command = cons.readLine();                   
                     if (command.toLowerCase().equals("fim")) {
                         break;
-                    }
-                    sim.nextEvent();
+                    }                    
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
