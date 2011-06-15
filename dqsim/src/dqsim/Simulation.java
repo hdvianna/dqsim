@@ -18,9 +18,12 @@ public class Simulation {
     private double timeOfNextDeparture;
     private ArrayList<Client> queue;    
     private ArrayList<Client> servedClients;
+    private int busyServers=0;
     private double endTime;
     private boolean hasEnded=false;
-        
+    private TimeRecordTracker queueTimeTracker;
+    private TimeRecordTracker systemTimeTracker;
+
     private void createServers(int _serversNumber) {
         servers = new ArrayList<Server>();
         for(int i=0;i < _serversNumber; i++) {
@@ -40,6 +43,8 @@ public class Simulation {
         createServers(_serversNumber);
         servedClients = new ArrayList<Client>();
         queue = new ArrayList<Client>();
+        queueTimeTracker = new TimeRecordTracker(clock);
+        systemTimeTracker = new TimeRecordTracker(clock);
     };
 
     /**
@@ -115,8 +120,14 @@ public class Simulation {
             servedClients.add(server.endService(clock));
             if (queue.size() > 0) {
                 Server freeServer =  getFreeServer();
-                freeServer.serveClient(queue.remove(0), clock);
+                Client client = queue.remove(0);
+                client.setQueueEndTime(clock);
+                freeServer.serveClient(client, clock);
+                queueTimeTracker.updateTimeRecordTracker(queue.size()+1, queue.size(), clock);
+            } else {
+                busyServers--;
             }
+            systemTimeTracker.updateTimeRecordTracker((busyServers+queue.size())+1, busyServers+queue.size(), clock);
         } 
     }
 
@@ -126,9 +137,13 @@ public class Simulation {
         client.setTimeOfArrival(clock);
         if (server != null) {
             server.serveClient(client, clock);
+            busyServers++;
         } else {
+            client.setQueueStartTime(clock);
             queue.add(client);
-        }       
+            queueTimeTracker.updateTimeRecordTracker(queue.size()-1, queue.size(), clock);
+        }
+        systemTimeTracker.updateTimeRecordTracker((busyServers+queue.size())-1, busyServers+queue.size(), clock);
     }
 
     public void nextEvent(  )
@@ -147,7 +162,7 @@ public class Simulation {
                 clock = timeOfNextDeparture;
                 timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
                 departure();
-                if (getServerWithOldestClient()==null) {
+                if (busyServers==0) {
                     timeOfNextDeparture = -1;
                 }
             }            
@@ -170,5 +185,17 @@ public class Simulation {
 
     public ArrayList<Server> getServers() {
         return servers;
+    }
+
+    public TimeRecordTracker getQueueRecordTimeTracker() {
+            return queueTimeTracker;
+    }
+
+     public TimeRecordTracker getSystemRecordTimeTracker() {
+            return systemTimeTracker;
+    }
+
+    public double getEndTime() {
+        return endTime;
     }
 }
