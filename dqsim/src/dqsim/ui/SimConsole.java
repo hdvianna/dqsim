@@ -17,6 +17,7 @@ import java.io.Console;
  */
 public class SimConsole extends Thread {
     private Simulation sim;
+    private boolean gotoEnd = false;
 
     public SimConsole(Simulation _sim) {
         sim = _sim;
@@ -29,15 +30,17 @@ public class SimConsole extends Thread {
         System.out.println("\tProxima chegada: " + sim.getTimeOfNextArrival());
         System.out.println("\tProxima partida: " + sim.getTimeOfNextDeparture());
         System.out.println("");
-        System.out.println("\tServidores ocupados: ");
+        System.out.println("\tServidores: ");
         i = 0;
         for(Server server: sim.getServers()) {
-            if (server.isBusy()) {
-                i++;
+            i++;
+            if (server.isBusy()) {                
                 System.out.println("\t\t Servidor " + i + ": ");
                 System.out.println("\t\t\t Tempo de chegada no sistema: " + server.getClient().getTimeOfArrival());
                 System.out.println("\t\t\t Inicio de atendimento: " + server.getClient().getServiceStartTime());
                 System.out.println("\t\t\t Tempo de ocupacao: " + server.getBusyTime(sim.getClock()));
+            } else {
+                System.out.println("\t\t Servidor " + i + " desocupado.");
             }
         }
         System.out.println("");
@@ -59,13 +62,22 @@ public class SimConsole extends Thread {
             while(!sim.hasEnded()) {
                 try {
                     sim.nextEvent();
-                    printSimData();
-                    System.out.println("Digite fim para finalizar a simulacao, enter continua.");
-                    String command;
-                    command = cons.readLine();                   
-                    if (command.toLowerCase().equals("fim")) {
-                        break;
-                    }                    
+                    if (!gotoEnd) {
+                        printSimData();
+                        System.out.println("COMANDOS:");
+                        System.out.println("fim - vai para o fim a simulacao.");
+                        System.out.println("sair - abandona a simulacao.");
+                        System.out.println("<enter> - segue para o proximo passo.");
+                        String command;
+                        command = cons.readLine();
+                        if (command.toLowerCase().equals("sair")) {
+                            break;
+                        } else if (command.toLowerCase().equals("fim")) {
+                            gotoEnd = true;
+                        }
+                    } else {                        
+                        sleep(1);
+                    }
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }

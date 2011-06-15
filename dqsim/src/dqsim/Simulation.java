@@ -152,6 +152,7 @@ public class Simulation {
                 }
             }            
         }
+        hasEnded = clock >= endTime;
 
     }
 
