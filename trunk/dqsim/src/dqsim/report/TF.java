@@ -1,15 +1,13 @@
-public class TF{
+public class TF {
 
-private double tf;
+	private double tf;
 
-public void setTf(double _tf)
-{
-	tf = _tf;
-}
+	public void setTf(double _tf) {
+		tf = _tf;
+	}
 
-public double getTf()
-{
-	return tf;
-}
+	public double getTf() {
+		return tf;
+	}
 
 }
