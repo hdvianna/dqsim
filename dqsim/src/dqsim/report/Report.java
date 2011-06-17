@@ -38,12 +38,11 @@ public class Report{
 		return ns;
 	}
 	
-	ublic void setSimulation(Simulation _simulation){
+	public void setSimulation(Simulation _simulation){
 		simulation = _simulation
 	}
 	
 	public double getSimulation(){
 		return simulation;
 	}
-	
 }
