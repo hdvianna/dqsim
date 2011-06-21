@@ -7,6 +7,7 @@ package dqsim.exec;
 
 import dqsim.Simulation;
 import dqsim.SimulationFactory;
+import dqsim.report.Report;
 
 /**
  *
@@ -19,5 +20,15 @@ public class Debugger {
         while(!sim.hasEnded()) {
             sim.nextEvent();
         }
+        sim.finishSimulation();
+        System.out.println("Simulacao finalizada.");
+        Report report = new Report(sim);
+        System.out.println("NS: " + report.ns());
+        System.out.println("TS: " + report.ts());
+        System.out.println("NF: " + report.nf());
+        System.out.println("TF: " + report.tf());
+        System.out.println("Ocupacao media: " + report.busyAverageTime());
+        System.out.println("Custo total: " + report.totalCost());
+        report.save();
     }
 }
