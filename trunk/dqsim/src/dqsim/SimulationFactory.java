@@ -18,7 +18,7 @@ public class SimulationFactory {
    */
   public static Simulation CreateSimulation(String _identification )
   {
-      Simulation sim = new Simulation(10, 27);
+      Simulation sim = new Simulation(10, 43200);
       sim.setServerCost(61.08);//10,18 * 6
       sim.setWaitingCost(1.95);//80/41
       sim.setArrivalRandomNumberGenerator(new UniformRandomNumberGenerator());

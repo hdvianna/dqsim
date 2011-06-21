@@ -1,37 +1,25 @@
 package dqsim.radom;
 
-
-
 /**
- * Class UniformRandoNumberGenerator */
+ * Esta classe utiliza o método de geração de valores uniformes chamada
+ * Mersenne Twister
+ */
 public class UniformRandomNumberGenerator extends RandomNumberGenerator {
 
-  //
-  // Fields
-  //
-
+  private long seed;
+  private MTRandom randGenerator;
   
-  //
-  // Constructors
-  //
-  public UniformRandomNumberGenerator () { };
+    public UniformRandomNumberGenerator (long seed) {
+        randGenerator = new MTRandom (seed);
+    }
+
+    public UniformRandomNumberGenerator () {
+        randGenerator = new MTRandom ();
+    }
 
     @Override
     public double generate() {
-        return java.lang.Math.random();
-    }
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
+        return randGenerator.nextDouble();
+    }  
 
 }
