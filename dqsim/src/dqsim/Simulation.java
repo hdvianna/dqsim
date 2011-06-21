@@ -179,6 +179,12 @@ public class Simulation {
             timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
             departure();
         }
+        if (queueTimeTracker.getTimeTracker().size() > 0 && queueTimeTracker.getTimeTracker().get(0).get(queueTimeTracker.getTimeTracker().get(0).size()-1).getEndTime()==-1) {
+            queueTimeTracker.getTimeTracker().get(0).get(queueTimeTracker.getTimeTracker().get(0).size()-1).setEndTime(clock);
+        }
+        if (systemTimeTracker.getTimeTracker().size() > 0 && systemTimeTracker.getTimeTracker().get(0).get(systemTimeTracker.getTimeTracker().get(0).size()-1).getEndTime()==-1) {
+            systemTimeTracker.getTimeTracker().get(0).get(systemTimeTracker.getTimeTracker().get(0).size()-1).setEndTime(clock);
+        }
     }
 
     public boolean hasEnded() {
