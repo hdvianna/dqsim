@@ -23,6 +23,9 @@ public class Simulation {
     private boolean hasEnded=false;
     private TimeRecordTracker queueTimeTracker;
     private TimeRecordTracker systemTimeTracker;
+    private double serverCost;
+    private double waitingCost;
+    private String name;
 
     private void createServers(int _serversNumber) {
         servers = new ArrayList<Server>();
@@ -167,8 +170,15 @@ public class Simulation {
                 }
             }            
         }
-        hasEnded = clock >= endTime;
+        hasEnded = timeOfNextArrival >= endTime;
+    }
 
+    public void finishSimulation() {
+        while(busyServers > 0) {
+            clock = timeOfNextDeparture;
+            timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
+            departure();
+        }
     }
 
     public boolean hasEnded() {
@@ -197,5 +207,29 @@ public class Simulation {
 
     public double getEndTime() {
         return endTime;
+    }
+
+    public void setServerCost(double _serverCost) {
+        serverCost = _serverCost;
+    }
+
+    public double getServerCost() {
+        return serverCost;
+    }
+
+    public void setWaitingCost(double _waitingCost) {
+        waitingCost = _waitingCost;
+    }
+
+    public double getWaitingCost() {
+        return waitingCost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String _name) {
+        name = _name;
     }
 }

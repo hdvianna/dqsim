@@ -50,5 +50,9 @@ public class Server {
         }
     }
 
+    public double getBusyTime() {
+        return busyTime;
+    }
+
 
 }
