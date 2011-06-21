@@ -97,8 +97,7 @@ public class SimConsole extends Thread {
                             gotoEnd = true;
                         }
                     } else {
-                        writeCompleteness();
-                        sleep(1);
+                        writeCompleteness();                        
                     }
                 } catch (Exception ex) {
                     System.out.println(ex);
