@@ -89,7 +89,7 @@ public class Report {
         }
         try {
             FileWriter fw = new FileWriter(file, true);
-            fw.write(nf() + ";" + ";" + ns() + ";"+ tf() + ";" + ts() + ";" + busyAverageTime() + ";" + totalCost() + "\r\n");
+            fw.write(nf() + ";" + ns() + ";"+ tf() + ";" + ts() + ";" + busyAverageTime() + ";" + totalCost() + "\r\n");
             fw.close();
         } catch (IOException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
