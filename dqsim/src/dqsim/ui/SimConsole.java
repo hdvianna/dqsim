@@ -103,7 +103,8 @@ public class SimConsole extends Thread {
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
-            }
+            }            
+            sim.finishSimulation();
             System.out.println("Simulacao finalizada.");
             Report report = new Report(sim);
             System.out.println("NS: " + report.ns());
