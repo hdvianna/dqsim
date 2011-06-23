@@ -28,6 +28,7 @@
 package dqsim.radom;
 
 import java.util.Random;
+import umontreal.iro.lecuyer.rng.RandomStream;
 
 /**
  * @version 1.0
@@ -81,7 +82,7 @@ import java.util.Random;
  * -->
  * 
  */
-public class MTRandom extends Random {
+public class MTRandom extends Random implements RandomStream {
 
 	/**
 	 * Auto-generated serial version UID.  Note that MTRandom does NOT
@@ -387,4 +388,29 @@ public class MTRandom extends Random {
 		}
 		return ibuf;
 	}
+
+    public void resetStartStream() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void resetStartSubstream() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void resetNextSubstream() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void nextArrayOfDouble(double[] doubles, int i, int i1) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int nextInt(int i, int i1) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void nextArrayOfInt(int i, int i1, int[] ints, int i2, int i3) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
