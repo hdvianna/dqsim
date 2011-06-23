@@ -19,7 +19,12 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        SimConsole console = new SimConsole(SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM"));
+        SimConsole console;
+        if (args.length == 0) {
+            console = new SimConsole(SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM"));
+        } else {
+            console = new SimConsole(SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM", Integer.parseInt(args[0])));
+        }
         console.start();
     }
 
