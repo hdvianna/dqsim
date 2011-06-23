@@ -19,9 +19,9 @@ public class SimulationFactory {
   /**
    * @return       Simulation
    */
-    public static Simulation CreateSimulation(String _identification )
+    public static Simulation CreateSimulation(String _identification, int _serversNumber )
     {
-        Simulation sim = new Simulation(10, 43200);
+        Simulation sim = new Simulation(_serversNumber, 43200);
         
         sim.setServerCost(61.08);
         sim.setWaitingCost(0.2);
@@ -39,6 +39,10 @@ public class SimulationFactory {
         sim.setName(_identification);
         
         return sim;
+    }
+
+    public static Simulation CreateSimulation(String _identification) {
+        return SimulationFactory.CreateSimulation(_identification, 10);
     }
 
 
