@@ -1,37 +1,32 @@
 package dqsim.radom;
 
+import java.util.HashMap;
+import java.util.Random;
+import umontreal.iro.lecuyer.rng.RandomStream;
+
 
 
 /**
  * Class RandomNumberGenerator */
 abstract public class RandomNumberGenerator {
 
-  //
-  // Fields
-  //
 
-  
-  //
-  // Constructors
-  //
-  public RandomNumberGenerator () { };
-  
-  //
-  // Methods
-  //
+    private HashMap <String, Parameter> parameters = new HashMap <String, Parameter>() ;
 
+    public RandomNumberGenerator () { };
 
-  //
-  // Accessor methods
-  //
+    abstract public double generate(  );
 
-  //
-  // Other methods
-  //
+    abstract public RandomStream getRamdomStream();
 
-  /**
-   * @return       double   */
-  abstract public double generate(  );
+    abstract public Random getRamdomSeed();
 
+    public void addParameter(String _name, Parameter value) {
+        parameters.put(_name, value);
+    }
+
+    public Parameter getParameter(String _name) {
+        return parameters.get(_name);
+    }
 
 }
