@@ -171,6 +171,8 @@ public class Simulation {
                     departure();
                     if (busyServers > 0) {
                         timeOfNextDeparture =  getNextDepartureClient().getTimeOfDeparture();
+                    } else {
+                        timeOfNextDeparture = -1;
                     }
                 }
             }
