@@ -118,28 +118,31 @@ public class Simulation {
     }
 
     private void departure() {
-        Server server = getServerWithOldestClient();
-        if (server != null) {
-            servedClients.add(server.endService(clock));
-            if (queue.size() > 0) {
-                Server freeServer =  getFreeServer();
-                Client client = queue.remove(0);
-                client.setQueueEndTime(clock);
-                freeServer.serveClient(client, clock);
-                queueTimeTracker.updateTimeRecordTracker(queue.size()+1, queue.size(), clock);
-            } else {
-                busyServers--;
+        for(Server server : servers) {
+            if (server.isBusy() && server.getClient().getTimeOfDeparture() == clock) {
+                servedClients.add(server.endService(clock));
+                if (queue.size() > 0) {
+                    Server freeServer =  getFreeServer();
+                    Client client = queue.remove(0);
+                    client.setQueueEndTime(clock);
+                    client.setTimeOfDeparture(clock + departureRandomNumberGenerator.generate());
+                    freeServer.serveClient(client, clock);
+                    queueTimeTracker.updateTimeRecordTracker(queue.size()+1, queue.size(), clock);
+                } else {
+                    busyServers--;
+                }
+                systemTimeTracker.updateTimeRecordTracker((busyServers+queue.size())+1, busyServers+queue.size(), clock);
             }
-            systemTimeTracker.updateTimeRecordTracker((busyServers+queue.size())+1, busyServers+queue.size(), clock);
-        } 
+        }
     }
 
     private void arrival() {
         Server server = getFreeServer();
         Client client = new Client();
-        client.setTimeOfArrival(clock);
+        client.setTimeOfArrival(clock);        
         if (server != null) {
-            server.serveClient(client, clock);
+            client.setTimeOfDeparture(clock + departureRandomNumberGenerator.generate());
+            server.serveClient(client, clock);            
             busyServers++;
         } else {
             client.setQueueStartTime(clock);
@@ -149,25 +152,40 @@ public class Simulation {
         systemTimeTracker.updateTimeRecordTracker((busyServers+queue.size())-1, busyServers+queue.size(), clock);
     }
 
+    private Client getNextDepartureClient(  )
+    {
+        double nextDeparture = -1;
+        Client nextDepartureClient = null;
+        for(Server server : servers) {
+            if (server.isBusy()) {
+                if (server.getClient().getTimeOfDeparture() < nextDeparture || nextDeparture == -1) {
+                    nextDeparture = server.getClient().getTimeOfDeparture();
+                    nextDepartureClient = server.getClient();
+                }
+            }
+        }
+        return nextDepartureClient;
+    }
+
     public void nextEvent(  )
     {
         if (timeOfNextArrival == -1) {
             timeOfNextArrival = arrivalRandomNumberGenerator.generate();
-        } else {            
+        } else {
             if (timeOfNextArrival < timeOfNextDeparture ||timeOfNextDeparture==-1) {
                 clock = timeOfNextArrival;
-                arrival();
-                if (timeOfNextDeparture==-1) {
-                    timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
-                }
-                timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();   
+                arrival();                
+                timeOfNextDeparture =  getNextDepartureClient().getTimeOfDeparture();
+                timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate(); 
             } else {
-                clock = timeOfNextDeparture;
-                departure();                
                 if (busyServers==0) {
                     timeOfNextDeparture = -1;
                 } else {
-                    timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
+                    clock = timeOfNextDeparture;                    
+                    departure();
+                    if (busyServers > 0) {
+                        timeOfNextDeparture =  getNextDepartureClient().getTimeOfDeparture();
+                    }
                 }
             }
         }
@@ -176,9 +194,8 @@ public class Simulation {
 
     public void finishSimulation() {
         while(busyServers > 0) {
-            clock = timeOfNextDeparture;
-            timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
-            departure();
+            clock = timeOfNextDeparture = getNextDepartureClient().getTimeOfDeparture();
+            departure();            
         }
         if (queueTimeTracker.getTimeTracker().size() > 0 && queueTimeTracker.getTimeTracker().get(0).get(queueTimeTracker.getTimeTracker().get(0).size()-1).getEndTime()==-1) {
             queueTimeTracker.getTimeTracker().get(0).get(queueTimeTracker.getTimeTracker().get(0).size()-1).setEndTime(clock);
