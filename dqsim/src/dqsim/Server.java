@@ -24,7 +24,6 @@ public class Server {
     public Client endService(double _clock) {
         busyTime += (_clock-client.getServiceStartTime());
         busy = false;
-        client.setTimeOfDeparture(_clock);
         Client _ret = client;
         client = null;
         return _ret;
