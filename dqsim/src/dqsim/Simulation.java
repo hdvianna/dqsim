@@ -154,21 +154,22 @@ public class Simulation {
         if (timeOfNextArrival == -1) {
             timeOfNextArrival = arrivalRandomNumberGenerator.generate();
         } else {            
-            if (timeOfNextArrival <= timeOfNextDeparture ||timeOfNextDeparture==-1) {
+            if (timeOfNextArrival < timeOfNextDeparture ||timeOfNextDeparture==-1) {
                 clock = timeOfNextArrival;
+                arrival();
                 timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();
                 if (timeOfNextDeparture==-1) {
                     timeOfNextDeparture = timeOfNextArrival + departureRandomNumberGenerator.generate();
-                }
-                arrival();                
+                }    
             } else {
                 clock = timeOfNextDeparture;
-                timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
-                departure();
+                departure();                
                 if (busyServers==0) {
                     timeOfNextDeparture = -1;
+                } else {
+                    timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
                 }
-            }            
+            }
         }
         hasEnded = timeOfNextArrival >= endTime;
     }
