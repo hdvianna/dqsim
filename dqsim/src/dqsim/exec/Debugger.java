@@ -42,21 +42,22 @@ public class Debugger {
         for (int i=0; i < 860; i++) {
             System.out.println(inverseGaussian.nextDouble());
         }*/
-
+        for (int i=0; i < 25; i++) {
         // TODO code application logic here
-        Simulation sim = SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM");
-        while(!sim.hasEnded()) {
-            sim.nextEvent();
+            Simulation sim = SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM", 2);
+            while(!sim.hasEnded()) {
+                sim.nextEvent();
+            }
+            sim.finishSimulation();
+            System.out.println("Simulacao finalizada.");
+            Report report = new Report(sim);
+            System.out.println("NS: " + report.ns());
+            System.out.println("TS: " + report.ts());
+            System.out.println("NF: " + report.nf());
+            System.out.println("TF: " + report.tf());
+            System.out.println("Ocupacao media: " + report.busyAverageTime());
+            System.out.println("Custo total: " + report.totalCost());
+            report.save();
         }
-        sim.finishSimulation();
-        System.out.println("Simulacao finalizada.");
-        Report report = new Report(sim);
-        System.out.println("NS: " + report.ns());
-        System.out.println("TS: " + report.ts());
-        System.out.println("NF: " + report.nf());
-        System.out.println("TF: " + report.tf());
-        System.out.println("Ocupacao media: " + report.busyAverageTime());
-        System.out.println("Custo total: " + report.totalCost());
-        report.save();
     }
 }
