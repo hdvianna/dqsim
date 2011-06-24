@@ -157,10 +157,10 @@ public class Simulation {
             if (timeOfNextArrival < timeOfNextDeparture ||timeOfNextDeparture==-1) {
                 clock = timeOfNextArrival;
                 arrival();
-                timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();
                 if (timeOfNextDeparture==-1) {
-                    timeOfNextDeparture = timeOfNextArrival + departureRandomNumberGenerator.generate();
-                }    
+                    timeOfNextDeparture = clock + departureRandomNumberGenerator.generate();
+                }
+                timeOfNextArrival = clock + arrivalRandomNumberGenerator.generate();   
             } else {
                 clock = timeOfNextDeparture;
                 departure();                
