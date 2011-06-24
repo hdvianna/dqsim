@@ -103,20 +103,6 @@ public class Simulation {
         return null;
     }
 
-    private Server getServerWithOldestClient() {
-        Server retServer = null;
-        for(Server server : servers) {
-            if (server.isBusy() && 
-                (retServer == null ||
-                server.getClient().getServiceStartTime() < retServer.getClient().getServiceStartTime()))
-            {
-                retServer = server;
-                
-            }
-        }
-        return retServer;
-    }
-
     private void departure() {
         for(Server server : servers) {
             if (server.isBusy() && server.getClient().getTimeOfDeparture() == clock) {
