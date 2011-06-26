@@ -23,7 +23,7 @@ public class SimulationFactory {
     {
         Simulation sim = new Simulation(_serversNumber, 43200);
         
-        sim.setServerCost(0.001413889);
+        sim.setServerCost(0.0028277789);
         sim.setWaitingCost(0.2);
 
         LomaxRandomNumberGenerator arrivalRandomNumberGenerator = new LomaxRandomNumberGenerator();
