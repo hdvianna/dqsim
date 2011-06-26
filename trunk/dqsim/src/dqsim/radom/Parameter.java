@@ -20,7 +20,7 @@ public class Parameter {
         return value;
     }
 
-    public void setValue(double _value) {
+    public final void setValue(double _value) {
         value = _value;
     }
 
