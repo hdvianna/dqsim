@@ -9,7 +9,6 @@ import dqsim.Client;
 import dqsim.Server;
 import dqsim.Simulation;
 import dqsim.TimeRecord;
-import dqsim.TimeRecordTracker;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
