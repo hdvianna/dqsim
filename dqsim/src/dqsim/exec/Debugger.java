@@ -44,7 +44,7 @@ public class Debugger {
         }*/
         for (int i=0; i < 25; i++) {
         // TODO code application logic here
-            Simulation sim = SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM", 2);
+            Simulation sim = SimulationFactory.CreateSimulation("TRABALHO_MODELAGEM_3-SERVIDORES", 2);
             while(!sim.hasEnded()) {
                 sim.nextEvent();
             }

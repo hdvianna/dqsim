@@ -73,7 +73,7 @@ public class Report {
     }
 
     public double totalCost() {
-        return (simulation.getWaitingCost() * ns()) +(simulation.getServerCost() * simulation.getServers().size());
+        return (simulation.getWaitingCost() * ns()) +(simulation.getServerCost() * simulation.getServers().size()) * simulation.getClock();
     }
 
     public void save() {
