@@ -1,2 +1,2 @@
 # dqsim
-Queue attendance simulation written in Java.
+Java queue attendance simulator.
